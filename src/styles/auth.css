@@ -1,0 +1,109 @@
+/* Auth pages. Fits over tokens/layout/components. */
+
+.link {
+  color: var(--amber, #ffc24b);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.auth-page {
+  padding-top: 22px;
+}
+.auth-page__content {
+  width: 100%;
+  min-height: calc(100dvh - 220px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 20px;
+}
+.auth-card {
+  padding: 20px 18px;
+  width: 100%;
+  max-width: 690px;
+  margin: 0 auto;
+}
+
+/* On small screens keep the form near the top so the on-screen
+   keyboard does not cover the lower fields. */
+@media (max-width: 560px) {
+  .auth-page__content {
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 24px 0 8px;
+  }
+}
+.auth-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.auth-card__icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 10px;
+  color: var(--amber, #ffc24b);
+  background: rgba(255, 194, 75, 0.12);
+}
+.auth-foot {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12.5px;
+}
+.auth-foot { margin-top: 14px; }
+
+/* ---------- social sign-up ---------- */
+.social-auth {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.social-auth__btn {
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  font-weight: 800;
+}
+.social-auth__btn svg { flex: none; color: var(--text); }
+.social-auth__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+  color: var(--muted-2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.social-auth__divider::before,
+.social-auth__divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.social-auth__note {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .social-auth {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .social-auth__btn { justify-content: center; }
+}

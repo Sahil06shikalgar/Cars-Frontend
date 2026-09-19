@@ -1,0 +1,45 @@
+:root {
+  /* surfaces */
+  --bg: #0a0b10;
+  --bg-elev: #0f1118;
+  --surface: #141821;
+  --surface-2: #1b2130;
+  --surface-3: #232b3d;
+  --border: #242c3d;
+  --border-strong: #34405b;
+  --glass: rgba(15, 17, 24, 0.88);
+
+  /* text */
+  --text: #f2f4f9;
+  --muted: #98a1b3;
+  --muted-2: #6b7488;
+
+  /* accents */
+  --red: #ff4d4d;
+  --red-deep: #ff3d2e;
+  --orange: #ff9a3d;
+  --grad: linear-gradient(135deg, #ff4d4d 0%, #ff9a3d 100%);
+  --green: #2fe08a;
+  --blue: #5fd0ff;
+  --gold: #ffd477;
+  --purple: #a06bff;
+
+  /* shape */
+  --radius: 20px;
+  --radius-sm: 14px;
+  --radius-xs: 10px;
+  --nav-h: 72px;
+  --appbar-h: 58px;
+  --maxw: 1180px;
+
+  /* elevation */
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 26px 64px rgba(0, 0, 0, 0.55);
+  --glow-red: 0 10px 26px rgba(255, 77, 77, 0.4);
+  --ring: 0 0 0 3px rgba(255, 154, 61, 0.3);
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.45, 0.64, 1);
+}
