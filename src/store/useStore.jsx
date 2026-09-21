@@ -18,6 +18,7 @@ const emptyState = () => ({
   communities: [],
   conversations: [],
   messagesOpened: 0,
+  blogs: [],
 })
 
 function clearStoredState() {
@@ -103,6 +104,23 @@ const convoDto = (c) => ({
   last: c.last || '',
   ts: c.ts,
   tradeRequestId: c.tradeRequestId || null,
+})
+
+const blogDto = (b) => ({
+  id: b.id,
+  slug: b.slug,
+  title: b.title,
+  excerpt: b.excerpt,
+  coverUrl: b.coverUrl || '',
+  category: b.category || 'Guides',
+  tags: b.tags || [],
+  body: Array.isArray(b.body) ? b.body : [],
+  readMinutes: b.readMinutes || 3,
+  featured: Boolean(b.featured),
+  views: b.views || 0,
+  authorId: b.authorId,
+  author: b.author || null,
+  ts: b.ts,
 })
 
 const wishDto = (w) => ({
@@ -206,17 +224,20 @@ export function StoreProvider({ children }) {
 
   // Public marketplace/community data — safe to load signed in or out.
   const fetchPublic = async () => {
-    const [finds, auctions, posts] = await Promise.all([
+    const [finds, auctions, posts, blogs] = await Promise.all([
       api.get('/finds').catch(() => null),
       api.get('/auctions?status=all').catch(() => null),
       api.get('/posts').catch(() => null),
+      api.get('/blogs').catch(() => null),
     ])
     indexProfiles({ auctions: auctions?.auctions, finds: finds?.finds, posts: posts?.posts })
+    ;(blogs?.blogs || []).forEach((b) => cacheProfile(b.author))
     setState((s) => ({
       ...s,
       finds: (finds?.finds || []).map(findDto),
       auctions: (auctions?.auctions || []).map(auctionDto),
       posts: (posts?.posts || []).map(postDto),
+      blogs: (blogs?.blogs || []).map(blogDto),
     }))
   }
 
@@ -771,6 +792,18 @@ export function StoreProvider({ children }) {
         ),
       }))
 
+    // Fetch the full article (bumps the read counter server-side) and merge it
+    // back into the store so the detail page and the list stay in sync.
+    const refreshBlog = (slug) => {
+      return api.get(`/blogs/${slug}`)
+        .then((r) => {
+          const dto = blogDto(r.blog)
+          update((s) => ({ ...s, blogs: s.blogs.map((b) => (b.slug === slug ? dto : b)) }))
+          return dto
+        })
+        .catch(() => null)
+    }
+
     const openMessages = () => update((s) => ({ ...s, messagesOpened: (s.messagesOpened || 0) + 1 }))
 
     // ——— session helpers ———
@@ -866,6 +899,7 @@ export function StoreProvider({ children }) {
       setWinner,
       toggleJoin,
       openMessages,
+      refreshBlog,
     }
   }, [state, session, ready, liveEvents, notifications, commentsByPost])
 

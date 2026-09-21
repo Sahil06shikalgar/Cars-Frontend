@@ -9,6 +9,7 @@ import { CarViewer } from '../components/CarViewer.jsx'
 import { ModelCard } from '../components/ModelCard.jsx'
 import { ListForAuctionModal } from '../components/forms.jsx'
 import { BoxIcon, TagIcon, ClockIcon, TrendingUpIcon } from '../components/icons.jsx'
+import { WhatsAppShareButton } from '../components/WhatsApp.jsx'
 
 export function CarDetailPage() {
   const { id } = useParams()
@@ -85,6 +86,11 @@ export function CarDetailPage() {
                 <TagIcon size={15} /> {model.listed ? 'Already listed' : 'List for auction'}
               </Button>
               <Button variant="ghost" onClick={() => navigate('/')}>Back to vault</Button>
+              <WhatsAppShareButton
+                title={`${model.name} ${model.brand} · ${model.scale} — my Diecet Gardage vault: `}
+                label=""
+                iconOnly
+              />
             </div>
 
             {model.listed ? (

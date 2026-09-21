@@ -3,6 +3,7 @@ import { Button, Badge } from './ui.jsx'
 import { money, timeLeft, timeAgo } from '../store/data.js'
 import { photoOfFind } from '../store/photos.js'
 import { ContactModal, TradeRequestModal, ReportModal } from './forms.jsx'
+import { WhatsAppShareButton } from './WhatsApp.jsx'
 
 const STATUS = {
   active: { tone: 'green', label: 'Still there' },
@@ -72,6 +73,11 @@ export function FindCard({ find, user, onStatus, canManage = true, isLive = fals
             </>
           )}
           <Button variant="ghost" className="btn--sm" onClick={() => setShowReport(true)}>Report</Button>
+          <WhatsAppShareButton
+            title={`${find.type === 'trade' ? 'Trade' : 'Find'}: ${find.title}${find.city ? ` — ${find.city}` : ''} on Diecet Gardage: `}
+            label="Share"
+            className="btn--sm"
+          />
         </div>
         {isLive && !canManage ? null : <p className="demo-note find-card__note">Status changes are saved in this browser only (demo).</p>}
       </div>

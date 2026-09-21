@@ -8,6 +8,7 @@ import { AppBar } from '../components/AppBar.jsx'
 import { CarViewer } from '../components/CarViewer.jsx'
 import { ContactModal } from '../components/forms.jsx'
 import { GavelIcon, ClockIcon, CheckIcon, TrophyIcon } from '../components/icons.jsx'
+import { WhatsAppShareButton } from '../components/WhatsApp.jsx'
 
 function BidForm({ auction, onBid, isLive }) {
   const current = currentBidOf(auction)
@@ -159,9 +160,16 @@ export function AuctionDetailPage() {
                 Listed by {seller ? seller.name : 'collector'} {seller ? seller.handle : ''} · {timeAgo(auction.opening)} ago
               </p>
               {!sellerIsMe ? (
-                <button type="button" className="btn btn--ghost btn--sm" onClick={() => (isLive ? setShowContact(true) : goSignIn())}>
-                  Message seller
-                </button>
+                <div className="row gap wrap">
+                  <button type="button" className="btn btn--ghost btn--sm" onClick={() => (isLive ? setShowContact(true) : goSignIn())}>
+                    Message seller
+                  </button>
+                  <WhatsAppShareButton
+                    title={`${auction.model.name} ${auction.model.brand} · live auction on Diecet Gardage (current bid ${money(current)}): `}
+                    label="Share"
+                    className="btn--sm"
+                  />
+                </div>
               ) : null}
             </div>
 

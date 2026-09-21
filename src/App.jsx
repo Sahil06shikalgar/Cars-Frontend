@@ -14,6 +14,8 @@ const MessagesPage = lazy(() => import('./pages/MessagesPage.jsx').then((m) => (
 const AuctionsPage = lazy(() => import('./pages/AuctionsPage.jsx').then((m) => ({ default: m.AuctionsPage })))
 const AuctionDetailPage = lazy(() => import('./pages/AuctionDetailPage.jsx').then((m) => ({ default: m.AuctionDetailPage })))
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx'))
+const BlogsPage = lazy(() => import('./pages/BlogsPage.jsx').then((m) => ({ default: m.BlogsPage })))
+const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage.jsx').then((m) => ({ default: m.BlogDetailPage })))
 
 function RouteFallback() {
   const { pathname } = useLocation()
@@ -72,6 +74,8 @@ function AppRoutes() {
         <Route path="/messages" element={<RequireAuth><Suspense fallback={<RouteFallback />}><MessagesPage /></Suspense></RequireAuth>} />
         <Route path="/auctions" element={<Suspense fallback={<RouteFallback />}><AuctionsPage /></Suspense>} />
         <Route path="/auctions/:id" element={<Suspense fallback={<RouteFallback />}><AuctionDetailPage /></Suspense>} />
+        <Route path="/blogs" element={<Suspense fallback={<RouteFallback />}><BlogsPage /></Suspense>} />
+        <Route path="/blogs/:slug" element={<Suspense fallback={<RouteFallback />}><BlogDetailPage /></Suspense>} />
         <Route path="/login" element={<Suspense fallback={<RouteFallback />}><AuthPage pageKey="login" /></Suspense>} />
         <Route path="/signup" element={<Suspense fallback={<RouteFallback />}><AuthPage pageKey="signup" /></Suspense>} />
         <Route path="/forgot" element={<Suspense fallback={<RouteFallback />}><AuthPage pageKey="forgot" /></Suspense>} />

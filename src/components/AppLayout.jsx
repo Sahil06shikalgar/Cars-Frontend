@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { TopNav } from './TopNav.jsx'
 import { BottomNav } from './BottomNav.jsx'
+import { WhatsAppFloat } from './WhatsApp.jsx'
+
+const AUTH_PATHS = ['/login', '/signup', '/forgot']
 
 function ScrollProgress() {
   const { pathname } = useLocation()
@@ -42,6 +45,8 @@ function ScrollProgress() {
 // Shared shell rendered for every route via <Outlet />. Desktop gets the
 // rounded pill top navigation, mobile keeps the existing bottom navigation.
 export function AppLayout() {
+  const { pathname } = useLocation()
+  const onAuthPage = AUTH_PATHS.includes(pathname)
   return (
     <div className="app">
       <main className="app__main">
@@ -52,6 +57,7 @@ export function AppLayout() {
         </div>
       </main>
       <BottomNav />
+      {onAuthPage ? null : <WhatsAppFloat />}
     </div>
   )
 }

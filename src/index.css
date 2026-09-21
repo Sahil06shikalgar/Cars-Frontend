@@ -4,6 +4,7 @@
 @import './styles/pages.css';
 @import './styles/auth.css';
 @import './styles/features.css';
+@import './styles/blogs.css';
 
 *,
 *::before,
