@@ -106,6 +106,14 @@ export function FeedPage() {
       />
 
       <div className="page" ref={pageRef}>
+        <div className="page-intro" data-reveal>
+          <span className="eyebrow">Community</span>
+          <h1 className="page-intro__title">The collector's feed</h1>
+          <p className="page-intro__sub">
+            Live finds, swap stories and headlines from collectors across our regions.
+          </p>
+        </div>
+
         <Tabs
           full
           tabs={[

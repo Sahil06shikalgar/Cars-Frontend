@@ -41,6 +41,12 @@ export function BlogDetailPage() {
 
   const author = collectorById(blog.authorId) || blog.author
 
+  const sameCategory = state.blogs.filter((b) => b.slug !== blog.slug && b.category === blog.category)
+  const related = (sameCategory.length ? sameCategory : state.blogs.filter((b) => b.slug !== blog.slug))
+    .slice()
+    .sort((a, b) => b.ts - a.ts)
+    .slice(0, 3)
+
   return (
     <>
       <AppBar eyebrow={blog.category} title={blog.title} back="/blogs" />
@@ -79,7 +85,7 @@ export function BlogDetailPage() {
 
         <div className="blog-article__body" data-reveal>
           {blog.body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
+            <p key={i} className={i === 0 ? 'blog-article__lead' : undefined}>{paragraph}</p>
           ))}
         </div>
 
@@ -95,6 +101,26 @@ export function BlogDetailPage() {
             <ClockIcon size={14} /> Read in {blog.readMinutes} min
           </span>
         </div>
+
+        {related.length ? (
+          <section className="blog-related" data-reveal>
+            <div className="section__head">
+              <h2 className="h-section">More from the journal</h2>
+              <Link className="section__link" to="/blogs">View all</Link>
+            </div>
+            <div className="blog-related__grid">
+              {related.map((r) => (
+                <Link key={r.slug} className="related-card" to={`/blogs/${r.slug}`}>
+                  <span className="related-card__cat">{r.category}</span>
+                  <span className="related-card__title">{r.title}</span>
+                  <span className="related-card__meta">
+                    {timeAgo(r.ts)} ago · {r.readMinutes} min read
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </>
   )

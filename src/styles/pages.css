@@ -150,7 +150,7 @@
   backdrop-filter: blur(6px);
 }
 .model-card__body { display: flex; flex-direction: column; gap: 5px; margin-top: 9px; flex: 1; min-width: 0; }
-.model-card__name { font-size: 13.5px; font-weight: 800; line-height: 1.25; }
+.model-card__name { font-size: 13.5px; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
 .model-card__meta {
   font-size: 10px;
   font-weight: 700;
@@ -210,7 +210,7 @@
 }
 .detail__media { display: flex; flex-direction: column; gap: 12px; }
 .detail__hero { width: 100%; border-radius: var(--radius); }
-.detail__title { font-size: clamp(23px, 7.5vw, 26px); font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; }
+.detail__title { font-size: clamp(23px, 7.5vw, 26px); font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; overflow-wrap: anywhere; }
 .detail__brand { color: var(--muted); font-size: 13px; }
 .detail__badges { display: flex; flex-wrap: wrap; gap: 8px; }
 .detail__info { display: flex; flex-direction: column; gap: 14px; }
@@ -536,7 +536,7 @@
 }
 .find-card__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .find-card__body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.find-card__title { font-size: 14px; font-weight: 800; }
+.find-card__title { font-size: 14px; font-weight: 800; overflow-wrap: anywhere; }
 .find-card__meta { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
 .find-card__desc { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
 .find-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
@@ -809,7 +809,7 @@
 .post-card__who b { font-size: 13.5px; }
 .post-card__who span { font-size: 11.5px; }
 .post-card__head .badge { margin-left: auto; }
-.post-card__text { margin: 0; font-size: 14px; }
+.post-card__text { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
 .post-card__foot {
   display: flex;
   align-items: center;
@@ -861,7 +861,7 @@
 .msg-item:hover { border-color: var(--border-strong); }
 .msg-item--active { border-color: var(--orange); background: var(--surface-2); }
 .msg-item__main { flex: 1; min-width: 0; }
-.msg-item__main b { font-size: 13.5px; }
+.msg-item__main b { font-size: 13.5px; overflow-wrap: anywhere; }
 .msg-item__main p {
   margin: 2px 0 0;
   font-size: 12.5px;
@@ -890,6 +890,7 @@
   background: var(--surface-2);
   border: 1px solid var(--border);
   font-size: 13.5px;
+  overflow-wrap: anywhere;
 }
 .msg-bubble--me {
   align-self: flex-end;
@@ -948,7 +949,7 @@
 .auction-card__thumb { width: 100%; }
 .auction-card__live { position: absolute; top: 8px; left: 8px; backdrop-filter: blur(6px); }
 .auction-card__body { display: flex; flex-direction: column; gap: 3px; }
-.auction-card__name { font-size: 14.5px; font-weight: 800; }
+.auction-card__name { font-size: 14.5px; font-weight: 800; overflow-wrap: anywhere; }
 .auction-card__by { font-size: 11.5px; color: var(--muted); }
 .auction-card__row {
   display: flex;
@@ -967,7 +968,7 @@
 .auction-detail { display: flex; flex-direction: column; gap: 16px; }
 .auction-hero { display: grid; grid-template-columns: 1fr; gap: 16px; }
 .auction-hero__thumb { width: 100%; border-radius: var(--radius); }
-.auction-hero__title { font-size: clamp(22px, 7vw, 24px); font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; }
+.auction-hero__title { font-size: clamp(22px, 7vw, 24px); font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05; overflow-wrap: anywhere; }
 .auction-hero__by { color: var(--muted); font-size: 13px; }
 .auction-hero__price {
   display: flex;

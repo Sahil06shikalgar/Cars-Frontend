@@ -19,10 +19,10 @@ function buildBody(hex) {
   const paint = new THREE.MeshPhysicalMaterial({
     color: hex,
     metalness: 0.55,
-    roughness: 0.18,
+    roughness: 0.16,
     clearcoat: 1,
-    clearcoatRoughness: 0.12,
-    envMapIntensity: 1.1,
+    clearcoatRoughness: 0.1,
+    envMapIntensity: 1.25,
   })
 
   const shape = new THREE.Shape()
@@ -232,6 +232,32 @@ function groundBlob() {
   return { mesh, tex }
 }
 
+// soft studio light pool under the car so it sits on a lit floor
+function floorPool() {
+  const canvas = document.createElement('canvas')
+  canvas.width = 256
+  canvas.height = 256
+  const ctx = canvas.getContext('2d')
+  const grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128)
+  grad.addColorStop(0, 'rgba(255,238,214,0.30)')
+  grad.addColorStop(0.42, 'rgba(255,214,170,0.10)')
+  grad.addColorStop(1, 'rgba(255,200,140,0)')
+  ctx.fillStyle = grad
+  ctx.fillRect(0, 0, 256, 256)
+  const tex = new THREE.CanvasTexture(canvas)
+  const m = new THREE.MeshBasicMaterial({
+    map: tex,
+    transparent: true,
+    opacity: 0.85,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  })
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 3.6), m)
+  mesh.rotation.x = -Math.PI / 2
+  mesh.position.y = 0.014
+  return { mesh, tex }
+}
+
 function disposeObject(obj) {
   obj.traverse((child) => {
     if (child.geometry) child.geometry.dispose()
@@ -278,23 +304,24 @@ export function CarViewer({ name = 'Model', brand = '', className = '', minimal 
     const pmrem = new THREE.PMREMGenerator(renderer)
     const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture
     scene.environment = envTex
-    scene.environmentIntensity = 0.6
+    scene.environmentIntensity = 0.75
 
     const ambient = new THREE.AmbientLight(0xffffff, 0.28)
-    scene.add(ambient)
 
     const key = new THREE.DirectionalLight(0xfff4e0, 1.9)
     key.position.set(2.5, 5, 4)
     key.castShadow = true
-    key.shadow.mapSize.set(1024, 1024)
+    key.shadow.mapSize.set(2048, 2048)
+    key.shadow.radius = 4
     key.shadow.camera.near = 0.5
     key.shadow.camera.far = 12
-    key.shadow.camera.left = -3
-    key.shadow.camera.right = 3
-    key.shadow.camera.top = 3
-    key.shadow.camera.bottom = -3
+    key.shadow.camera.left = -2.8
+    key.shadow.camera.right = 2.8
+    key.shadow.camera.top = 2.8
+    key.shadow.camera.bottom = -2.8
     key.shadow.bias = -0.0004
     key.shadow.normalBias = 0.02
+    scene.add(ambient)
     scene.add(key)
 
     const rim = new THREE.PointLight(0x6fb8ff, 1.2, 12)
@@ -307,6 +334,8 @@ export function CarViewer({ name = 'Model', brand = '', className = '', minimal 
     scene.add(softFloor())
     const blob = groundBlob()
     scene.add(blob.mesh)
+    const pool = floorPool()
+    scene.add(pool.mesh)
 
     const hex = brandColorOf(brand)
     const car = buildCar(hex)
@@ -359,6 +388,7 @@ export function CarViewer({ name = 'Model', brand = '', className = '', minimal 
       envTex.dispose()
       pmrem.dispose()
       blob.tex.dispose()
+      pool.tex.dispose()
       renderer.dispose()
       disposeObject(scene)
       if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)

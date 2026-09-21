@@ -4,12 +4,13 @@ import { useStore } from '../store/useStore.jsx'
 import { timeAgo } from '../store/data.js'
 import { useScrollReveal } from '../hooks/useScrollReveal.js'
 import { AppBar } from '../components/AppBar.jsx'
-import { Badge, Chip, EmptyState } from '../components/ui.jsx'
+import { Avatar, Chip, EmptyState } from '../components/ui.jsx'
 import { NewspaperIcon, ClockIcon, TrendingUpIcon, ArrowUpRightIcon } from '../components/icons.jsx'
 import { WhatsAppShareButton } from '../components/WhatsApp.jsx'
 
 function BlogCard({ blog, author, wide = false }) {
   const [coverOk, setCoverOk] = useState(true)
+  const name = author ? author.name : 'Diecet Editorial'
   return (
     <article className={`blog-card ${wide ? 'blog-card--banner' : ''}`.trim()}>
       <Link className="blog-card__media" to={`/blogs/${blog.slug}`} aria-hidden="true" tabIndex={-1}>
@@ -24,30 +25,40 @@ function BlogCard({ blog, author, wide = false }) {
           />
         ) : (
           <span className="blog-card__fallback">
-            <NewspaperIcon size={26} />
+            <NewspaperIcon size={28} />
           </span>
         )}
+        <span className="blog-card__cat">{blog.category}</span>
+        {wide ? <span className="blog-card__ribbon">Featured</span> : null}
       </Link>
       <div className="blog-card__body">
-        <div className="blog-card__meta">
-          <Badge tone="orange">{blog.category}</Badge>
-          <span className="muted" style={{ fontSize: 12 }}>
-            <ClockIcon size={12} /> {blog.readMinutes} min read
-          </span>
-        </div>
         <Link className="blog-card__title" to={`/blogs/${blog.slug}`}>
-          {blog.title} <ArrowUpRightIcon size={14} className="blog-card__arrow" />
+          {blog.title} <ArrowUpRightIcon size={15} className="blog-card__arrow" />
         </Link>
         <p className="blog-card__excerpt">{blog.excerpt}</p>
         <div className="blog-card__foot">
-          <span className="blog-card__user">
-            {author ? author.name : 'Diecet Editorial'} · {timeAgo(blog.ts)} ago
+          <span className="blog-card__author">
+            {author ? <Avatar user={author} size={30} /> : null}
+            <span className="blog-card__by">
+              <b>{name}</b>
+              <em>{timeAgo(blog.ts)} ago</em>
+            </span>
           </span>
-          <span className="blog-card__views">
-            <TrendingUpIcon size={12} /> {blog.views.toLocaleString('en')} reads
+          <span className="blog-card__foot-end">
+            <span className="blog-card__views">
+              <ClockIcon size={12} /> {blog.readMinutes} min
+            </span>
+            <span className="blog-card__views">
+              <TrendingUpIcon size={12} /> {blog.views.toLocaleString('en')}
+            </span>
+            <WhatsAppShareButton
+              title={blog.title}
+              label="Share on WhatsApp"
+              iconOnly
+              className="wa-share-mini"
+            />
           </span>
         </div>
-        <WhatsAppShareButton title={blog.title} label="Share" className="btn--sm" />
       </div>
     </article>
   )
@@ -88,17 +99,22 @@ export function BlogsPage() {
       />
 
       <div className="page" ref={pageRef}>
-        <div className="section__head" style={{ alignItems: 'flex-end' }}>
+        <section className="blog-masthead" data-reveal>
           <div>
-            <h2 className="h-section">Stories, guides &amp; news</h2>
-            <p className="muted" style={{ fontSize: 13, letterSpacing: 0, textTransform: 'none' }}>
-              Collecting tips, rarity deep-dives and community headlines.
+            <span className="eyebrow">Diecet Editorial</span>
+            <h1 className="blog-masthead__title">The Collectors’ Journal</h1>
+            <p className="blog-masthead__sub">
+              Rarity deep-dives, buying guides and community headlines from the world of diecast collecting.
             </p>
           </div>
-        </div>
+          <div className="blog-masthead__stats">
+            <span className="blog-masthead__stat"><b>{state.blogs.length}</b> Articles</span>
+            <span className="blog-masthead__stat"><b>{categories.length}</b> Topics</span>
+          </div>
+        </section>
 
         {categories.length ? (
-          <div className="row gap wrap" role="group" aria-label="Filter articles by category">
+          <div className="blog-filters" role="group" aria-label="Filter articles by category">
             <Chip active={category === 'All'} onClick={() => setCategory('All')}>All</Chip>
             {categories.map((c) => (
               <Chip key={c} active={category === c} onClick={() => setCategory(c)}>{c}</Chip>
@@ -113,18 +129,23 @@ export function BlogsPage() {
             text="Check back soon — the editorial team is writing."
           />
         ) : (
-          <div className="blog-grid" data-reveal="stagger">
-            {featured ? (
-              <BlogCard
-                blog={featured}
-                author={featured.author || collectorById(featured.authorId)}
-                wide
-              />
-            ) : null}
-            {rest.map((b) => (
-              <BlogCard key={b.slug} blog={b} author={b.author || collectorById(b.authorId)} />
-            ))}
-          </div>
+          <>
+            <div className="section__head">
+              <h2 className="h-section">Latest stories</h2>
+            </div>
+            <div className="blog-grid" data-reveal="stagger">
+              {featured ? (
+                <BlogCard
+                  blog={featured}
+                  author={featured.author || collectorById(featured.authorId)}
+                  wide
+                />
+              ) : null}
+              {rest.map((b) => (
+                <BlogCard key={b.slug} blog={b} author={b.author || collectorById(b.authorId)} />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </>

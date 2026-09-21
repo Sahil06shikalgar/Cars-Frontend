@@ -64,6 +64,14 @@ export function AuctionsPage() {
       />
 
       <div className="page" ref={pageRef}>
+        <div className="page-intro" data-reveal>
+          <span className="eyebrow">Marketplace</span>
+          <h1 className="page-intro__title">Where rare diecast changes hands</h1>
+          <p className="page-intro__sub">
+            Track live lots, place your bids and list models straight from your vault.
+          </p>
+        </div>
+
         <div className="section">
           <SectionTitle
             title="My listings"
